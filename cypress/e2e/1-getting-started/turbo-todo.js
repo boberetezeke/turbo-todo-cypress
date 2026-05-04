@@ -1,12 +1,17 @@
 /// <reference types="cypress" />
 
 describe("turbo-todo app", () => {
-  const turboTodoUrl = "http://localhost:3000"
+  //const turboTodoUrl = "http://localhost:3000"
+  const turboTodoUrl = "https://todo-turbo-55c62706fa01.herokuapp.com"
   const railsAppPath = "../turbo-todo"
 
   const visitAsNewUser = () => {
     // Reset app data so each test has a clean starting state.
-    cy.exec(`bash -lc 'source "$HOME/.rvm/scripts/rvm" && cd ${railsAppPath} && rvm use ruby-3.4.5@turbo-todo >/dev/null && bin/rails runner "Todo.delete_all"'`)
+    // cy.exec(`bash -lc 'source "$HOME/.rvm/scripts/rvm" && cd ${railsAppPath} && rvm use ruby-3.4.5@turbo-todo >/dev/null && bin/rails runner "Todo.delete_all"'`)
+
+      cy.env(['resetKey']).then(({ resetKey }) => {
+          cy.visit(turboTodoUrl + "/test_reset?key=" + resetKey)
+      })
 
     // Simulate a fresh browser user/session before each visit.
     cy.clearCookies()
